@@ -1,0 +1,182 @@
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Box</title>
+</head>
+<style>
+        .container {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            border: 1px solid;
+            background-color: rgb(85, 83, 199);
+            box-shadow: 0px 1px 10px red;
+            border-radius: 40px;
+        }
+        .containers {
+            display: flex;
+            border: 1px solid;
+            padding: 20px;
+            flex-direction: column;
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%; 
+            height: 10px; 
+            background: #ddd;
+            border-radius: 5px; 
+            outline: none; 
+            transition: background 0.3s; 
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; 
+            height: 20px; 
+            width: 20px; 
+            border-radius: 50%; 
+            background: #4c4eaf; 
+            cursor: pointer; 
+            transition: background 0.3s; 
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            height: 20px; 
+            width: 20px; 
+            border-radius: 50%; 
+            background: #051446; 
+            cursor: pointer; 
+        }
+        input[type="range"]:hover {
+            background: #5d93ac; 
+        }
+        label {
+            font-size: 14px;
+            color:#4c4eaf;
+        }
+        .text button {
+            padding: 10px 20px;
+            background-color:#051446; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .text button:hover {
+            background-color: #4553a0;
+        }
+        pre {
+            background-color: white; 
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #051446; 
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: monospace;
+        }
+     
+    </style>
+
+<body>
+    <div class="container">
+        <div class="containers">
+            <label for="shadow">Shadow</label><br>
+            <input id="shadow" type="range" min="0" max="100" onchange="updateBox()"><br>
+    
+            <label for="width">Width</label><br>
+            <input id="width" type="range" min="50" max="500" onchange="updateBox()"><br>
+    
+            <label for="height">Height</label><br>
+            <input id="height" type="range" min="50" max="700" onchange="updateBox()"><br>
+    
+            <label for="color">Background Color</label><br>
+            <input id="color" type="color" onchange="updateBox()"><br>
+    
+            <label for="borderRadius">Border Radius</label><br>
+            <input id="borderRadius" type="range" min="0" max="100" step="10" onchange="updateBox()"><br>
+    
+            <label for="borderWidth">Border Width</label><br>
+            <input id="borderWidth" type="range" min="1" max="30" onchange="updateBox()"><br>
+
+            <label for="borderColor">Border Color</label><br>
+            <input id="borderColor" type="color" onchange="updateBox()"><br>
+
+            <label for="shadowColor">Box Shadow Color</label><br>
+            <input id="shadowColor" type="color" onchange="updateBox()"><br>
+        </div>
+        <div id="box" class="box"></div>
+        <div class="text">
+            <button onclick="generateCode()">Generate Code</button>
+            <button onclick="copy()">copy</button>
+            <pre id="cssCode"></pre>
+        </div>
+    </div>
+    <script>   
+   
+    function updateBox() {
+        var box = document.getElementById('box');
+
+        var shadowValue = document.getElementById('shadow').value;
+        var widthValue = document.getElementById('width').value;
+        var heightValue = document.getElementById('height').value;
+        var backgroundColorValue = document.getElementById('color').value;
+        var borderRadiusValue = document.getElementById('borderRadius').value;
+        var borderWidthValue = document.getElementById('borderWidth').value;
+        var borderColorValue = document.getElementById('borderColor').value;
+        var shadowColorValue = document.getElementById('shadowColor').value;
+
+        box.style.boxShadow = `0px 0px ${shadowValue}px ${shadowColorValue}`;
+        box.style.width = widthValue + 'px';
+        box.style.height = heightValue + 'px';
+        box.style.backgroundColor = backgroundColorValue;
+        box.style.borderRadius = borderRadiusValue + '%';
+        box.style.borderWidth = borderWidthValue + 'px';
+        box.style.borderStyle = 'solid';
+        box.style.borderColor = borderColorValue;
+    }
+
+    function generateCode() {
+        var shadowValue = document.getElementById('shadow').value;
+        var widthValue = document.getElementById('width').value;
+        var heightValue = document.getElementById('height').value;
+        var backgroundColorValue = document.getElementById('color').value;
+        var borderRadiusValue = document.getElementById('borderRadius').value;
+        var borderWidthValue = document.getElementById('borderWidth').value;
+        var borderColorValue = document.getElementById('borderColor').value;
+        var shadowColorValue = document.getElementById('shadowColor').value;
+
+        var cssCode = `
+            .box {
+                width: ${widthValue}px;
+                height: ${heightValue}px;
+                background-color: ${backgroundColorValue};
+                border-radius: ${borderRadiusValue}%;
+                border-width: ${borderWidthValue}px;
+                border-style: solid;
+                border-color: ${borderColorValue};
+                box-shadow: 0px 0px ${shadowValue}px ${shadowColorValue};
+            }
+        `;
+        document.getElementById('cssCode').textContent = cssCode;
+    }
+
+    function copy() {
+            var cssCode = document.getElementById('cssCode').textContent;
+
+            navigator.clipboard.writeText(cssCode).then(function() {
+                alert('CSS code copied to clipboard!');
+            }).catch(function(error) {
+                alert('Error copying text: ', error);
+            });
+        }
+</script>
+</body>
+</html> 
